@@ -1,7 +1,16 @@
 
 const layout = require('../layout');
 
-module.exports = ({ req }) => {
+const getError = (errors, prop) =>{ 
+    try{
+        return errors.mapped()[prop].msg
+    } catch (err){ 
+        return '';
+    }
+};
+
+
+module.exports = ({ req, errors}) => {
     return layout({
         content:
         `
@@ -9,8 +18,12 @@ module.exports = ({ req }) => {
         your id is: ${req.session.userId}
         <form method="POST">
             <input name="email" placeholder="email" />
+            ${getError(errors, 'email')}
             <input name="password" placeholder="password" />
+            ${getError(errors, 'password')}
             <input name="passwordConfirmation" placeholder="passwordConfirmation" />
+            ${getError(errors, 'passwordConfirmation')}
+
             <button> PUT ME IN COACH</button>
         </form>
     </div>
